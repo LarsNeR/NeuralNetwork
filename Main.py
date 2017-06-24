@@ -6,7 +6,7 @@ from sklearn.metrics import precision_recall_fscore_support
 # a range of different datasets)
 (X, y) = datasets.load_breast_cancer(return_X_y=True)
 
-# Preprocess it with sklearn (not necessary, but improves gradient descent)
+# Preprocess it with sklearn (not necessary, but improves finding minimum)
 X = preprocessing.scale(X)
 
 # Divide dataset into train and test data
