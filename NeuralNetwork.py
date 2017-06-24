@@ -58,15 +58,17 @@ class NeuralNetwork(object):
             self.layers[layer] = self.hypothesis(self.layers[layer - 1], self.weights[layer - 1])
             self.layers[layer] = np.c_[np.ones(self.layers[layer].shape[0]), self.layers[layer]]
         self.layers[self.n_layers - 1] = self.hypothesis(self.layers[self.n_layers - 2], self.weights[self.n_hidden_layers])
-        predictions = np.ravel(self.layers[self.n_layers-1])
+        predictions = np.ravel(self.layers[self.n_layers - 1])
         return predictions
 
     def reshape_weights(self, X, weights_vec):
-        self.weights[0] = weights_vec[0 : self.weights[0].size].reshape(self.n_hidden_nodes, X.shape[1] + 1)
+        self.weights[0] = weights_vec[0: self.weights[0].size].reshape(
+            self.n_hidden_nodes, X.shape[1] + 1)
         for layer in range(1, self.n_hidden_layers):
-            self.weights[layer] = weights_vec[self.weights[layer-1].size : self.weights[self.n_hidden_layers-1].size+self.weights[layer].size].reshape(self.n_hidden_nodes, self.n_hidden_nodes + 1)
-        self.weights[self.n_hidden_layers] = weights_vec[self.weights[self.n_hidden_layers-1].size : self.weights[self.n_hidden_layers-1].size+self.weights[self.n_hidden_layers].size].reshape(1, self.n_hidden_nodes + 1)
-
+            self.weights[layer] = weights_vec[self.weights[layer - 1].size : self.weights[self.n_hidden_layers - 1].size + 
+                self.weights[layer].size].reshape(self.n_hidden_nodes, self.n_hidden_nodes + 1)
+        self.weights[self.n_hidden_layers] = weights_vec[self.weights[self.n_hidden_layers - 1].size: self.weights[self.n_hidden_layers - 1].size + 
+            self.weights[self.n_hidden_layers].size].reshape(1, self.n_hidden_nodes + 1)
 
     def hypothesis(self, X, weights):
         return 1 / (1 + np.exp(-np.dot(X, weights.T)))
